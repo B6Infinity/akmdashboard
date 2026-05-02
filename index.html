@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ashoknagar Kalyangarh · Population Map</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ════════════════════════════════════════
+       SIDE PANEL
+  ════════════════════════════════════════ -->
+  <aside id="panel">
+
+    <div class="panel-header">
+      <div class="eyebrow">Census 2011 · West Bengal</div>
+      <h1>Ashoknagar<br>Kalyangarh</h1>
+      <div class="subtitle">Ward-wise Population Density</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="panel-section">
+      <div class="section-label">Layers</div>
+      <div class="toggle-row">
+        <span class="toggle-label">Population Density</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-layer" checked />
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Summary stats -->
+    <div class="panel-section">
+      <div class="section-label">Municipality Summary</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="val" id="stat-total">—</div>
+          <div class="lbl">Total Pop.</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" id="stat-wards">—</div>
+          <div class="lbl">Wards</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" id="stat-maxd">—</div>
+          <div class="lbl">Max Density</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" id="stat-avgd">—</div>
+          <div class="lbl">Avg Density</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ward list -->
+    <div class="panel-section" style="flex:1">
+      <div class="section-label">Wards</div>
+      <div class="ward-list" id="ward-list"></div>
+    </div>
+
+    <div class="panel-footer">
+      Source: Census of India 2011 &nbsp;·&nbsp; Mock GeoJSON boundaries
+    </div>
+
+  </aside>
+
+  <!-- ════════════════════════════════════════
+       MAP
+  ════════════════════════════════════════ -->
+  <div id="map-container">
+    <div id="map"></div>
+    <button id="panel-toggle" aria-label="Toggle panel">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <rect x="2" y="4" width="14" height="1.5" rx="0.75" fill="#9aa3b8"/>
+        <rect x="2" y="8.25" width="14" height="1.5" rx="0.75" fill="#9aa3b8"/>
+        <rect x="2" y="12.5" width="14" height="1.5" rx="0.75" fill="#9aa3b8"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+
+</body>
+</html>
