@@ -250,12 +250,7 @@ export default function Dashboard() {
               ☰
             </button>
 
-            <div className="map-badge">
-              <div>
-                <strong>Ward Density Map</strong>
-                <span>Frontend renders the map, backend owns the data</span>
-              </div>
-            </div>
+
           </div>
 
           <WardMap
