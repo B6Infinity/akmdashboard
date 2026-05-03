@@ -596,7 +596,7 @@ input {
   }
 
   .map-card {
-    height: calc(100vh - 32px);
+    height: calc(40vh - 32px);
     min-height: 540px;
   }
 
