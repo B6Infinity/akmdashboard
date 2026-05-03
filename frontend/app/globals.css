@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --bg: #f4f7fb;
   --bg-2: #e8eef8;
@@ -48,6 +52,8 @@
 
 * {
   box-sizing: border-box;
+  /* DEBUG */
+  /* background-color: #57d38b1c; */
 }
 
 html,
