@@ -26,3 +26,5 @@ Thumbs.db
 
 # Ignore backend node_modules
 backend/node_modules/
+
+lab/

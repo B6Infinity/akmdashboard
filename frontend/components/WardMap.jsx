@@ -114,7 +114,7 @@ const WardMap = forwardRef(function WardMap({ theme, densityRange, visible, onWa
 
       const baseLayer = leaflet.tileLayer(TILE_URLS[theme], {
         maxZoom: 19,
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a> | OpenStreetMap contributors',
+        // attribution: '&copy; <a href="https://carto.com/">CARTO</a> | OpenStreetMap contributors',
       });
 
       tileLayerRef.current = baseLayer;
