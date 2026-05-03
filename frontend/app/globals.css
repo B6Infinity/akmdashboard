@@ -618,59 +618,50 @@ input {
   }
 
   .leaflet-control-zoom {
-    bottom: 60px !important;
-    right: 12px !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .map-topbar {
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 12px 28px rgba(18, 28, 50, 0.12) !important;
+    z-index: 800 !important;
   }
 
-  .panel-toggle {
-    width: 44px;
-    height: 44px;
-    align-self: flex-start;
-    margin-bottom: 8px;
-  }
-
-  .map-badge {
-    max-width: 100%;
-    flex: 1;
-    padding: 10px 12px;
-  }
-
-  .map-badge strong {
-    font-size: 0.9rem;
-  }
-
-  .map-badge span {
-    font-size: 0.78rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ward-list {
-    max-height: 42vh;
+  .leaflet-bar a,
+  .leaflet-bar a:hover {
+    background: var(--panel-solid) !important;
+    color: var(--text) !important;
+    border-bottom: 1px solid var(--line) !important;
   }
 
   .leaflet-control-zoom {
-    bottom: 12px !important;
-    right: 10px !important;
+    margin-bottom: 18px !important;
+    margin-left: 18px !important;
   }
 
-  .leaflet-bar a {
-    width: 36px !important;
-    height: 36px !important;
-    line-height: 36px !important;
-    font-size: 18px !important;
+  @media (max-width: 900px) {
+    .leaflet-control-zoom {
+      margin-bottom: 60px !important;
+      margin-left: 12px !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .leaflet-control-zoom {
+      margin-bottom: 12px !important;
+      margin-left: 10px !important;
+    }
+
+    .leaflet-bar a {
+      width: 36px !important;
+      height: 36px !important;
+      line-height: 36px !important;
+      font-size: 18px !important;
+    }
+  }
+
+  .leaflet-control-attribution {
+    background: rgba(255, 255, 255, 0.72) !important;
+    color: var(--muted) !important;
+  }
+
+  :root[data-theme="dark"] .leaflet-control-attribution {
+    background: rgba(17, 24, 37, 0.82) !important;
   }
 }
