@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import WardMap from "./WardMap";
@@ -134,36 +134,39 @@ export default function Dashboard() {
 
   if (loadError) {
     return (
-      <div className="dashboard" style={{ placeItems: "center" }}>
-        <div className="sidebar-header" style={{ maxWidth: 640, margin: 24 }}>
-          <div className="eyebrow">Backend unavailable</div>
-          <h1>Could not load ward data</h1>
-          <div className="subtitle">{loadError}</div>
+      <div className="min-h-screen grid place-items-center">
+        <div className="bg-panel-soft border border-line rounded-lg p-[22px]" style={{ maxWidth: 640, margin: 24 }}>
+          <div className="text-accent uppercase tracking-[0.18em] text-[0.72rem] font-bold mb-[12px]">Backend unavailable</div>
+          <h1 className="m-0 font-syne text-[clamp(2rem,3vw,3rem)] leading-[0.95] tracking-[-0.04em]">Could not load ward data</h1>
+          <div className="mt-[10px] text-muted text-[0.98rem]">{loadError}</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`dashboard ${sidebarOpen ? "sidebar-open" : ""}`}>
-      <aside className="sidebar" aria-label="Ward dashboard sidebar">
-        <header className="sidebar-header">
-          <div className="eyebrow">Census 2011 | West Bengal</div>
-          <h1>
+    <div className="min-h-screen grid grid-cols-1 min-[900px]:grid-cols-[320px_minmax(0,1fr)] min-[1100px]:grid-cols-[360px_minmax(0,1fr)]">
+      <aside 
+        className={`flex flex-col gap-[18px] p-[22px] bg-panel border-r border-line backdrop-blur-[20px] shadow-custom z-[900] min-[900px]:z-[2] fixed inset-y-4 left-4 w-[min(360px,calc(100vw-32px))] -translate-x-[calc(100%+20px)] transition-transform duration-250 ease min-[900px]:static min-[900px]:w-auto min-[900px]:translate-x-0 min-[900px]:inset-auto min-[900px]:transition-none ${sidebarOpen ? "translate-x-0" : ""}`} 
+        aria-label="Ward dashboard sidebar"
+      >
+        <header className="bg-panel-soft border border-line rounded-lg p-[22px]">
+          <div className="text-accent uppercase tracking-[0.18em] text-[0.72rem] font-bold mb-[12px]">Census 2011 | West Bengal</div>
+          <h1 className="m-0 font-syne text-[clamp(2rem,3vw,3rem)] leading-[0.95] tracking-[-0.04em]">
             Ashoknagar
             <br />
             Kalyangarh
           </h1>
-          <div className="subtitle">Ward-wise population density on a clean map canvas</div>
+          <div className="mt-[10px] text-muted text-[0.98rem]">Ward-wise population density on a clean map canvas</div>
         </header>
 
-        <section className="section">
-          <h2 className="section-title">View Options</h2>
-          <div className="toolbar">
-            <div className="mode-group" role="group" aria-label="Map theme">
+        <section className="bg-panel-soft border border-line rounded-lg p-[18px]">
+          <h2 className="m-0 mb-[14px] text-subtle text-[0.72rem] tracking-[0.16em] uppercase">View Options</h2>
+          <div className="grid grid-cols-1 gap-[10px]">
+            <div className="grid grid-cols-1 min-[900px]:grid-cols-2 gap-[8px]" role="group" aria-label="Map theme">
               <button
                 type="button"
-                className={`mode-button ${theme === "light" ? "active" : ""}`}
+                className={`inline-flex items-center justify-center gap-[8px] border bg-panel-solid rounded-full py-[11px] px-[14px] shadow-mode-button cursor-pointer min-w-0 transition-all duration-[0.18s] ease w-full hover:-translate-y-[1px] ${theme === "light" ? "bg-chip border-line-strong text-chip-text" : "border-line text-text-default"}`}
                 onClick={() => setTheme("light")}
                 aria-pressed={theme === "light"}
               >
@@ -171,7 +174,7 @@ export default function Dashboard() {
               </button>
               <button
                 type="button"
-                className={`mode-button ${theme === "dark" ? "active" : ""}`}
+                className={`inline-flex items-center justify-center gap-[8px] border bg-panel-solid rounded-full py-[11px] px-[14px] shadow-mode-button cursor-pointer min-w-0 transition-all duration-[0.18s] ease w-full hover:-translate-y-[1px] ${theme === "dark" ? "bg-chip border-line-strong text-chip-text" : "border-line text-text-default"}`}
                 onClick={() => setTheme("dark")}
                 aria-pressed={theme === "dark"}
               >
@@ -181,79 +184,85 @@ export default function Dashboard() {
 
             <button
               type="button"
-              className="toggle-pill"
+              className="inline-flex items-center gap-[8px] border border-line bg-panel-solid text-text-default rounded-full py-[11px] px-[14px] shadow-mode-button cursor-pointer min-w-0 hover:-translate-y-[1px] w-full justify-between transition-transform duration-[0.18s] ease"
               onClick={() => setLayerVisible((current) => !current)}
               aria-pressed={layerVisible}
-              data-checked={layerVisible ? "true" : "false"}
             >
-              <span className="theme-label">{layerVisible ? "Layer on" : "Layer off"}</span>
-              <span className="toggle-rail" aria-hidden="true" />
+              <span className="text-[0.9rem] text-muted">{layerVisible ? "Layer on" : "Layer off"}</span>
+              <span className="w-[40px] h-[22px] rounded-full bg-[rgba(29,108,242,0.18)] relative flex-none">
+                <span 
+                  className={`absolute top-[3px] bottom-[3px] left-[3px] w-[16px] rounded-full bg-white transition-transform duration-[0.22s] ease shadow-toggle-rail ${layerVisible ? "translate-x-[18px]" : ""}`} 
+                  aria-hidden="true" 
+                />
+              </span>
             </button>
           </div>
         </section>
 
-        <section className="section">
-          <h2 className="section-title">Municipality Summary</h2>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-value">{formatThousands(summary.total)}</div>
-              <div className="stat-label">Total Population</div>
+        {/* <section className="bg-panel-soft border border-line rounded-lg p-[18px]">
+          <h2 className="m-0 mb-[14px] text-subtle text-[0.72rem] tracking-[0.16em] uppercase">Municipality Summary</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-[10px]">
+            <div className="min-w-0 p-[14px] rounded-md border border-line bg-panel-solid">
+              <div className="block max-w-full font-syne text-[clamp(1.2rem,2vw,1.6rem)] font-extrabold tracking-[-0.04em] leading-[1.05] break-words">{formatThousands(summary.total)}</div>
+              <div className="mt-[6px] text-subtle text-[0.72rem] uppercase tracking-[0.12em]">Total Population</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-value">{summary.wardCount}</div>
-              <div className="stat-label">Wards</div>
+            <div className="min-w-0 p-[14px] rounded-md border border-line bg-panel-solid">
+              <div className="block max-w-full font-syne text-[clamp(1.2rem,2vw,1.6rem)] font-extrabold tracking-[-0.04em] leading-[1.05] break-words">{summary.wardCount}</div>
+              <div className="mt-[6px] text-subtle text-[0.72rem] uppercase tracking-[0.12em]">Wards</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-value">{summary.maxDensity}</div>
-              <div className="stat-label">Max Density</div>
+            <div className="min-w-0 p-[14px] rounded-md border border-line bg-panel-solid">
+              <div className="block max-w-full font-syne text-[clamp(1.2rem,2vw,1.6rem)] font-extrabold tracking-[-0.04em] leading-[1.05] break-words">{summary.maxDensity}</div>
+              <div className="mt-[6px] text-subtle text-[0.72rem] uppercase tracking-[0.12em]">Max Density</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-value">{summary.avgDensity}</div>
-              <div className="stat-label">Average Density</div>
+            <div className="min-w-0 p-[14px] rounded-md border border-line bg-panel-solid">
+              <div className="block max-w-full font-syne text-[clamp(1.2rem,2vw,1.6rem)] font-extrabold tracking-[-0.04em] leading-[1.05] break-words">{summary.avgDensity}</div>
+              <div className="mt-[6px] text-subtle text-[0.72rem] uppercase tracking-[0.12em]">Average Density</div>
             </div>
           </div>
-        </section>
+        </section> */}
 
-        <section className="section" style={{ flex: 1 }}>
-          <h2 className="section-title">Wards</h2>
-          <div className="ward-list">
+        {/* <section className="bg-panel-soft border border-line rounded-lg p-[18px] flex-1">
+          <h2 className="m-0 mb-[14px] text-subtle text-[0.72rem] tracking-[0.16em] uppercase">Wards</h2>
+          <div className="grid gap-[8px] max-h-[42vh] min-[600px]:max-h-[min(56vh,620px)] overflow-auto pr-[2px]">
             {sortedWards.map((ward) => (
               <button
                 key={ward.id}
                 type="button"
-                className={`ward-item ${activeWardId === ward.id ? "active" : ""}`}
+                className={`grid grid-cols-[12px_minmax(0,1fr)_auto] gap-[10px] items-center border rounded-md py-[11px] px-[12px] text-left cursor-pointer min-w-0 transition-all duration-[0.18s] ease hover:-translate-y-[1px] ${activeWardId === ward.id ? "bg-list-active border-line-strong text-text-default" : "bg-transparent border-transparent text-text-default hover:bg-list-hover"}`}
                 onClick={() => handleWardSelect(ward.id)}
               >
                 <span
-                  className="ward-dot"
+                  className="w-[12px] h-[12px] rounded-full shadow-[0_0_0_4px_rgba(255,255,255,0.08)]"
                   style={{ background: getDensityColor(ward.density, densityRange, theme) }}
                 />
-                <span className="ward-name">{ward.name}</span>
-                <span className="ward-meta">{formatThousands(ward.population)}</span>
+                <span className="font-bold min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{ward.name}</span>
+                <span className="text-muted tabular-nums whitespace-nowrap">{formatThousands(ward.population)}</span>
               </button>
             ))}
           </div>
-        </section>
+        </section> */}
 
-        <footer className="footer-note">Source: Census of India 2011 and the ward GeoJSON served by the backend.</footer>
+        <footer className="bg-panel-soft border border-line rounded-lg mt-auto py-[14px] px-[16px] text-muted text-[0.9rem]">
+          Source: Census of India 2011 and the ward GeoJSON served by the backend.
+        </footer>
       </aside>
 
-      <main className="map-shell">
-        <div className="map-card">
-          <div className="map-topbar">
+      <main className="relative min-w-0 p-[16px] min-[900px]:p-[22px]">
+        <div className="relative h-[calc(100vh-32px)] min-h-[540px] min-[900px]:h-[calc(100vh-44px)] min-[900px]:min-h-[620px] rounded-[calc(var(--radius-xl)+6px)] overflow-hidden border border-map-border bg-panel-solid shadow-custom">
+          <div className="absolute top-[10px] left-[10px] right-[10px] min-[600px]:top-[12px] min-[600px]:left-[12px] min-[600px]:right-[12px] min-[900px]:top-[18px] min-[900px]:left-[18px] min-[900px]:right-[18px] z-[950] flex flex-col min-[600px]:flex-row min-[600px]:flex-wrap min-[900px]:flex-nowrap items-stretch min-[600px]:items-start min-[600px]:justify-between gap-[12px] pointer-events-none">
             <button
               type="button"
-              className="panel-toggle"
+              className="pointer-events-auto flex items-center justify-center w-[44px] h-[44px] min-[600px]:inline-flex min-[900px]:hidden rounded-[14px] border border-line bg-[rgba(255,255,255,0.82)] dark:bg-[rgba(17,24,37,0.82)] text-text-default shadow-panel-toggle self-start max-[599px]:mb-[8px]"
               onClick={() => setSidebarOpen((current) => !current)}
               aria-label="Toggle sidebar"
             >
               ☰
             </button>
 
-            <div className="map-badge">
+            <div className="pointer-events-auto inline-flex items-center gap-[12px] py-[10px] px-[12px] min-[600px]:py-[12px] min-[600px]:px-[14px] rounded-[18px] border border-line bg-[rgba(255,255,255,0.78)] dark:bg-[rgba(17,24,37,0.84)] backdrop-blur-[18px] max-[599px]:flex-1">
               <div>
-                <strong>Ward Density Map</strong>
-                <span>Frontend renders the map, backend owns the data</span>
+                <strong className="block font-syne text-[0.9rem] min-[600px]:text-[1rem]">Ward Density Map</strong>
+                <span className="block text-muted text-[0.78rem] min-[600px]:text-[0.88rem]">Frontend renders the map, backend owns the data</span>
               </div>
             </div>
           </div>
