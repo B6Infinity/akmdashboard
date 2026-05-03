@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 
@@ -21,10 +21,10 @@ function densityToColor(density, range, theme) {
 
 function buildTooltipHTML(props) {
   return `
-    <div class="tt-title">${props.ward_name}</div>
-    <div class="tt-row"><span>Population</span><strong>${props.population.toLocaleString()}</strong></div>
-    <div class="tt-row"><span>Area</span><strong>${props.area_ha} ha</strong></div>
-    <div class="tt-row"><span>Density</span><strong>${props.density} p/ha</strong></div>
+    <div class="font-syne text-[1rem] font-extrabold mb-[8px]">${props.ward_name}</div>
+    <div class="flex justify-between gap-[24px] text-[0.88rem] text-muted"><span>Population</span><strong class="text-text-default">${props.population.toLocaleString()}</strong></div>
+    <div class="flex justify-between gap-[24px] text-[0.88rem] text-muted"><span>Area</span><strong class="text-text-default">${props.area_ha} ha</strong></div>
+    <div class="flex justify-between gap-[24px] text-[0.88rem] text-muted"><span>Density</span><strong class="text-text-default">${props.density} p/ha</strong></div>
   `;
 }
 
@@ -32,15 +32,15 @@ function buildPopupHTML(props, maxDensity) {
   const fill = Math.round((props.density / maxDensity) * 100);
 
   return `
-    <div class="popup-inner">
-      <div class="popup-label">Ward ${props.ward_id}</div>
-      <div class="popup-title">${props.ward_name}</div>
-      <table class="popup-table">
-        <tr><td class="key">Population</td><td class="val">${props.population.toLocaleString()}</td></tr>
-        <tr><td class="key">Area</td><td class="val">${props.area_ha} hectares</td></tr>
-        <tr><td class="key">Density</td><td class="val">${props.density} persons/ha</td></tr>
+    <div class="p-[16px_18px] min-w-[220px]">
+      <div class="text-accent uppercase text-[0.72rem] tracking-[0.16em] font-bold mb-[6px]">Ward ${props.ward_id}</div>
+      <div class="font-syne text-[1.3rem] font-extrabold mb-[12px]">${props.ward_name}</div>
+      <table class="w-full border-collapse">
+        <tr><td class="py-[7px] border-t border-line text-[0.92rem] text-muted">Population</td><td class="py-[7px] border-t border-line text-[0.92rem] text-right font-bold">${props.population.toLocaleString()}</td></tr>
+        <tr><td class="py-[7px] border-t border-line text-[0.92rem] text-muted">Area</td><td class="py-[7px] border-t border-line text-[0.92rem] text-right font-bold">${props.area_ha} hectares</td></tr>
+        <tr><td class="py-[7px] border-t border-line text-[0.92rem] text-muted">Density</td><td class="py-[7px] border-t border-line text-[0.92rem] text-right font-bold">${props.density} persons/ha</td></tr>
       </table>
-      <div class="density-bar"><div class="density-fill" style="width:${fill}%"></div></div>
+      <div class="mt-[14px] h-[8px] rounded-full overflow-hidden bg-[rgba(29,108,242,0.12)]"><div class="h-full rounded-[inherit] bg-gradient-to-r from-accent-2 to-accent" style="width:${fill}%"></div></div>
     </div>
   `;
 }
@@ -49,12 +49,12 @@ function createLegend(L, range, theme) {
   const legend = L.control({ position: "bottomright" });
 
   legend.onAdd = () => {
-    const element = L.DomUtil.create("div", "legend-box");
+    const element = L.DomUtil.create("div", "bg-panel-solid border border-line rounded-[16px] p-[12px_14px] shadow-legend");
     const colors = COLOR_STOPS[theme];
     element.innerHTML = `
-      <div class="legend-title">Density (persons / ha)</div>
-      <div class="legend-gradient" style="background: linear-gradient(90deg, ${colors.join(", ")});"></div>
-      <div class="legend-labels">
+      <div class="uppercase tracking-[0.14em] text-subtle text-[0.7rem] mb-[10px]">Density (persons / ha)</div>
+      <div class="h-[10px] rounded-full mb-[6px]" style="background: linear-gradient(90deg, ${colors.join(", ")});"></div>
+      <div class="flex justify-between text-muted text-[0.78rem]">
         <span>${range.min}</span>
         <span>${Math.round((range.min + range.max) / 2)}</span>
         <span>${range.max}</span>
@@ -105,9 +105,10 @@ const WardMap = forwardRef(function WardMap({ theme, densityRange, visible, onWa
       const map = leaflet.map(mapElementRef.current, {
         center: [22.83, 88.63],
         zoom: 14,
-        zoomControl: true,
+        zoomControl: false,
         attributionControl: true,
       });
+      leaflet.control.zoom({ position: 'bottomleft' }).addTo(map);
 
       map.attributionControl.setPrefix("");
       mapInstanceRef.current = map;
@@ -240,9 +241,9 @@ const WardMap = forwardRef(function WardMap({ theme, densityRange, visible, onWa
   }, [visible]);
 
   return (
-    <div className="map-root">
-      {!ready && <div className="loading-state">Loading map…</div>}
-      <div ref={mapElementRef} className="map-root" />
+    <div className="h-full min-h-[620px]">
+      {!ready && <div className="grid place-items-center h-full text-muted">Loading map…</div>}
+      <div ref={mapElementRef} className="h-full min-h-[620px]" />
     </div>
   );
 });
