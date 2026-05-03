@@ -259,12 +259,7 @@ export default function Dashboard() {
               ☰
             </button>
 
-            <div className="pointer-events-auto inline-flex items-center gap-[12px] py-[10px] px-[12px] min-[600px]:py-[12px] min-[600px]:px-[14px] rounded-[18px] border border-line bg-[rgba(255,255,255,0.78)] dark:bg-[rgba(17,24,37,0.84)] backdrop-blur-[18px] max-[599px]:flex-1">
-              <div>
-                <strong className="block font-syne text-[0.9rem] min-[600px]:text-[1rem]">Ward Density Map</strong>
-                <span className="block text-muted text-[0.78rem] min-[600px]:text-[0.88rem]">Frontend renders the map, backend owns the data</span>
-              </div>
-            </div>
+
           </div>
 
           <WardMap
