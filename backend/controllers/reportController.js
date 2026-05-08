@@ -109,3 +109,24 @@ export const updateReportStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteReport = async (req, res, next) => {
+  try {
+     const report = await Report.findById(req.params.id);
+
+     if(!report){
+        return res.status(404).json({ success: false, error: "Report not found." });
+     }
+
+     if(report.photo_public_id && process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_CLOUD_NAME !=="your_cloud_name"){
+        await cloudinary.uploader.destroy(report.photo_public_id);
+     }
+
+     await Report.findByIdAndDelete(req.params.id);
+     res.json({ success: true, message: "Report deleted successfully." });
+    
+  } catch (error) {
+    next(error);
+  }
+}
+  
