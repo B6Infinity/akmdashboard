@@ -4,7 +4,8 @@ import {
   Marker,
   Popup,
   GeoJSON,
-  useMap
+  useMap,
+  Tooltip
 } from "react-leaflet"
 
 // import wardData from "../data/AKM_Wards.geojson"
@@ -12,10 +13,14 @@ import { useEffect, useState } from "react";
 
 
 
-function WardMap( selectedLocation ) {
+function Map({ selectedReportTooltipContent }) { // Unpack right here
+  const selectedReportLocation = selectedReportTooltipContent?.location;
+  const selectedReportPhotoURL = selectedReportTooltipContent?.photo_url;
+  const selectedReportType = selectedReportTooltipContent?.type;
+  const selectedReportRemarks = selectedReportTooltipContent?.remarks;
 
-  selectedLocation = selectedLocation.selectedLocation; // Its sending the object packed with object with its own name (i.e., selectedLocation)
-  
+  // console.log('selectedLocation :>> ', selectedLocation);
+
   // Load Wards
   const [wardData, setWardData] = useState(null);
   useEffect(() => {
@@ -32,8 +37,6 @@ function WardMap( selectedLocation ) {
   }, [])
 
 
-
-
   return (
     <MapContainer
       center={[22.845, 88.64]}
@@ -43,23 +46,37 @@ function WardMap( selectedLocation ) {
         width: "100%"
       }}
     >
-      {selectedLocation && <MapController selectedLocation={selectedLocation}/>}
-      
+      {selectedReportLocation && <MapController selectedLocation={selectedReportLocation} />}
 
-      
+
+
 
       <TileLayer
         attribution='&copy; OpenStreetMap contributors'
         // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       />
 
-      {selectedLocation && 
-      <Marker position={[selectedLocation.lat, selectedLocation.lng]}>
-        <Popup>
-          AKM Area
-        </Popup>
-      </Marker>
+      {selectedReportLocation &&
+        <Marker
+          position={[selectedReportLocation.lat, selectedReportLocation.lng]}
+        >
+          <Popup>
+            AKM Area
+          </Popup>
+
+          <Tooltip permanent>
+            <img style={{ maxWidth: '200px', maxHeight: '200px' }} src={selectedReportPhotoURL} alt="" />
+            {selectedReportRemarks && (
+              <div>
+                <b>Remarks: </b>
+                {selectedReportRemarks}
+              </div>
+            )}
+          </Tooltip>
+
+
+        </Marker>
       }
 
       {/* geoJSON */}
@@ -82,16 +99,16 @@ function MapController({ selectedLocation }) {
 
     if (!selectedLocation) return
 
-    
+
     map.flyTo(
       [selectedLocation.lat, selectedLocation.lng],
       17
     );
 
-  }, [selectedLocation])
+  }, [map, selectedLocation])
 
   return null
 }
 
 
-export default WardMap
+export default Map
