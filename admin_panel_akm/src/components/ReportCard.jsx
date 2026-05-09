@@ -1,27 +1,27 @@
 function ReportCard({ report, setSelectedReportTooltipContent }) {
     return (
-        <div className="p-2 bg-gray-300 hover:bg-gray-400 my-1 rounded-md flex justify-between">
+        <div className={`p-2 bg-gray-300 hover:bg-gray-400 my-1 rounded-md flex justify-between`}>
             <div>Time: <b>{formatReportDate(report.createdAt)}</b></div>
             <div>
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryChipCSS(report.type)}`}
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mx-2 ${getCategoryChipCSS(report.type)}`}
                 >{report.type}</span>
+                
+                <button
+                    className="p-1 bg-gray-100 rounded-md hover:bg-gray-200"
+                    onClick={
+                        () => {
+                            // setSelectedLocation(report.location);
+                            // setSelectedReportPhotoURL(report.photo_url);
+
+                            setSelectedReportTooltipContent({
+                                "location": report.location,
+                                "photo_url": report.photo_url,
+                                "category": report.type,
+                                "remarks": report.remarks
+                            })
+                        }
+                    }>📍</button>
             </div>
-
-            <button
-                className="p-1 bg-gray-100 rounded-md hover:bg-gray-200"
-                onClick={
-                    () => {
-                        // setSelectedLocation(report.location);
-                        // setSelectedReportPhotoURL(report.photo_url);
-
-                        setSelectedReportTooltipContent({
-                            "location": report.location,
-                            "photo_url": report.photo_url,
-                            "category": report.type,
-                            "remarks": report.remarks
-                        })
-                    }
-                }>📍</button>
         </div>
     )
 }
@@ -38,26 +38,26 @@ function getCategoryChipCSS(category) {
     }
 }
 const formatReportDate = (dateString) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  
-  // 1. Get the time in "10:02 AM" format
-  const timePart = date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  });
+    const date = new Date(dateString);
+    const now = new Date();
 
-  // 2. Calculate the difference in days
-  const diffInMs = now - date;
-  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    // 1. Get the time in "10:02 AM" format
+    const timePart = date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    });
 
-  // 3. Return combined format
-  if (diffInDays > 0) {
-    return `${timePart}, ${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
-  }
-  
-  return timePart;
+    // 2. Calculate the difference in days
+    const diffInMs = now - date;
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    // 3. Return combined format
+    if (diffInDays > 0) {
+        return `${timePart}, ${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+    }
+
+    return timePart;
 };
 
 
