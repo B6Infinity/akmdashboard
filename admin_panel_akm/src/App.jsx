@@ -18,8 +18,6 @@ function App() {
 
 
   // Selected Location state -----------------
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [selectedReportPhotoURL, setSelectedReportPhotoURL] = useState(null);
 
   const [selectedReportTooltipContent, setSelectedReportTooltipContent] = useState(null);
 
@@ -39,8 +37,6 @@ function App() {
             return <ReportCard
               key={report._id}
               report={report}
-              // setSelectedLocation={setSelectedLocation}
-              // setSelectedReportPhotoURL={setSelectedReportPhotoURL}
               setSelectedReportTooltipContent={setSelectedReportTooltipContent}
             />
           })}
@@ -49,8 +45,6 @@ function App() {
 
         <div className='basis-80 grow'>
           <Map
-            // selectedLocation={selectedLocation}
-            // selectedReportPhotoURL={selectedReportPhotoURL}
             selectedReportTooltipContent={selectedReportTooltipContent}
           />
         </div>
