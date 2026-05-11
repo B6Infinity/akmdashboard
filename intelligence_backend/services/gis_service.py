@@ -7,21 +7,18 @@ import requests
 
 
 print("[INFO] Fetching Wards geoJSON from node backend")
-URL = "http://localhost:4000/api/map/wards"
+WARDS_URL = "http://localhost:4000/api/map/wards"
 try:
-    response = requests.get(URL)
+    response = requests.get(WARDS_URL)
     wards_gdf = gpd.GeoDataFrame.from_features(response.json()["data"]["features"])
     wards_gdf.crs = "EPSG:4326"
 
 except:
-    print(f"[ERROR] Failed to load geoJSON from node backend. Check if running on port 4000\n[LOG] URL: {URL}")
+    print(f"[ERROR] Failed to load geoJSON from node backend. Check if running on port 4000\n[LOG] URL: {WARDS_URL}")
     wards_gdf = None
 
 
-def get_ward_from_gps(lat, lng):
-
-    # print(wards_gdf)
-
+def get_ward_from_gps(lng, lat):
     if wards_gdf is None:
         return None
 
@@ -41,3 +38,6 @@ def get_ward_from_gps(lat, lng):
         ward_id = int(result["ward_no"][0])
 
     return ward_id
+
+def get_nearby_reports_from_gps(lng, lat, radius_m):
+    return []
