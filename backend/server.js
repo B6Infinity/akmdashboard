@@ -1,8 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import connectDB from "./config/db.js";
 import { configureCloudinary } from "./config/cloudinary.js";
+import { checkDBConnection } from "./config/db.js";
 import apiRoutes from "./routes/index.js";
 import errorHandler from "./middleware/errorHandler.js";
 
@@ -10,11 +10,13 @@ import errorHandler from "./middleware/errorHandler.js";
 const PORT = process.env.PORT || 4000;
 
 // Initialize services
-connectDB();
+checkDBConnection();
 configureCloudinary();
 
 // ─── App Setup ────────────────────────────────────────────────────────────────
 const app = express();
+
+
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" })); // 50mb to allow base64 images

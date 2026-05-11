@@ -1,20 +1,23 @@
-import mongoose from "mongoose";
+import pg from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '@prisma/client';
 
-const connectDB = async () => {
-  const uri = process.env.MONGODB_URI;
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
 
-  if (!uri) {
-    console.error("[DB] MONGODB_URI is not set in .env");
-    process.exit(1);
-  }
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
+export const checkDBConnection = async () => {
   try {
-    const conn = await mongoose.connect(uri);
-    console.log(`[DB] MongoDB connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(`[DB] Connection failed: ${error.message}`);
+    await prisma.$queryRawUnsafe(`SELECT 1`);
+    console.log('[DB] Connected to PostgreSQL via Prisma');
+  } catch (err) {
+    console.error('[DB] Connection failed:', err.message);
     process.exit(1);
   }
 };
 
-export default connectDB;
+export default prisma;
