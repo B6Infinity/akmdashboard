@@ -5,12 +5,15 @@ source intelligence_backend/akmvenv/bin/activate
 echo "Activated akmvenv"
 uvicorn intelligence_backend.main:app --port 4001 --reload & # Run the intelligence backend in the background
 
+# Express Backend
+npm start --prefix backend &
 
-npm start --prefix backend &     # Run the first command in the background
-npm run dev --prefix admin_panel_akm &  # Run the second command in the background
+# Admin Panel Frontend
+npm run dev --prefix admin_panel_akm &
 
-
+# User Frontend
+npm run dev --prefix frontend &
 
 wait
 
-echo "Both servers terminated..."
+echo "All servers terminated..."
