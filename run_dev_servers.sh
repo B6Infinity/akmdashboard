@@ -16,4 +16,4 @@ npm run dev --prefix frontend &
 
 wait
 
-echo "All servers terminated..."
+echo "All Servers terminated..."
