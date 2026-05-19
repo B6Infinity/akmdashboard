@@ -5,16 +5,17 @@ import ReportCard from './components/ReportCard';
 function App() {
 
   // Report Fetch and Show -----------------
-  const [allReports, setAllReports] = useState(null);
+  const [allIncidents, setAllIncidents] = useState(null);
   useEffect(() => {
-    fetch('http://localhost:4000/api/reports')
+    fetch('http://localhost:4001/db/all_incidents')
       .then((response) => response.json())
       .then((data) => {
-        setAllReports(data.data)
-        console.log('Reports :>> ', data.data[0]);
+        setAllIncidents(data.data)
+        console.log('Incidents :>> ', data.data[0]);
       })
       .catch((error) => console.error("Failed to load reports:", error))
   }, []);
+
 
 
   // Selected Location state -----------------
@@ -28,11 +29,11 @@ function App() {
       <div className="flex flex-row w-full overflow-hidden width-100 flex-1">
 
         <div className='basis-20 bg-gray-200 grow p-5 overflow-y-auto h-full'>
-          <h3 className='text-3xl'>Reports ({allReports && allReports.length})</h3>
+          <h3 className='text-3xl'>Reports ({allIncidents && allIncidents.length})</h3>
 
           <hr />
 
-          {allReports && allReports.map((report) => {
+          {allIncidents && allIncidents.map((report) => {
             // JSON.stringify(report)
             return <ReportCard
               key={report._id}
@@ -46,6 +47,7 @@ function App() {
         <div className='basis-80 grow'>
           <Map
             selectedReportTooltipContent={selectedReportTooltipContent}
+            allIncidents={allIncidents}
           />
         </div>
       </div>

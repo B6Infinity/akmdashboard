@@ -1,7 +1,32 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+
 function ReportCard({ report, setSelectedReportTooltipContent }) {
+
+    const [ward, setWard] = useState(null);
+
+    useEffect(() => {
+        const fetchWard = async () => {
+            try {
+                const response = await axios.post("http://localhost:4001/analysis/wardfromgps", {
+                    lng: report.location.lng,
+                    lat: report.location.lat
+                });
+                setWard(response.data.ward);
+            } catch (error) {
+                console.error("Error fetching ward:", error);
+            }
+        };
+
+        if (report && report.location) {
+            fetchWard();
+        }
+    }, [report]);
+
     return (
         <div className={`p-2 bg-gray-300 hover:bg-gray-400 my-1 rounded-md flex justify-between`}>
-            <div>Time: <b>{formatReportDate(report.createdAt)}</b></div>
+            <div>Time: <b>{formatReportDate(report.created_at)}</b></div>
             <div>
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mx-2 ${getCategoryChipCSS(report.type)}`}
                 >{report.type}</span>
@@ -20,7 +45,7 @@ function ReportCard({ report, setSelectedReportTooltipContent }) {
                                 "remarks": report.remarks
                             })
                         }
-                    }>📍</button>
+                    }>📍 {ward && <span>{ward}</span>} </button>
             </div>
         </div>
     )
@@ -59,6 +84,5 @@ const formatReportDate = (dateString) => {
 
     return timePart;
 };
-
 
 export default ReportCard

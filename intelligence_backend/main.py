@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from intelligence_backend.routes.analysis import router as analysis_router
+from intelligence_backend.routes.db_routes import router as db_router
+
 
 app = FastAPI()
 
@@ -21,10 +23,14 @@ app.add_middleware(
     allow_headers=["*"],              # Allows all headers
 )
 
-# 3. Include Routers
+
+
+
+# 3. Include Routers --------------------------------------------
 app.include_router(analysis_router)
+app.include_router(db_router)
 
-
+# --------------------------------------------
 
 @app.get("/")
 async def root():

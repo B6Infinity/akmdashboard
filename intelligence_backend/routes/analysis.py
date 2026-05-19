@@ -15,8 +15,8 @@ class GPSNearbyRequest(BaseModel):
     radius_m: int
 
 # Routes --------------------------------------
-@router.post("/getward")
-async def get_ward(data: GPSRequest):
+@router.post("/wardfromgps")
+async def wardfromgps(data: GPSRequest):
     ward = get_ward_from_gps(data.lng, data.lat)
     return {
         "success": True,
